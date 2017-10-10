@@ -1,0 +1,50 @@
+{
+  "name": "argus",
+  "version": "1.0.0",
+  "description": "A source code management monitoring system written in NodeJS.",
+  "keywords": [
+    "monitor",
+    "git"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=8.6"
+  },
+  "scripts": {
+    "test": "snyk test && standard",
+    "development": "pm2 start server/server.js --watch"
+  },
+  "homepage": "https://github.com/mozillasecurity/argus",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozillasecurity/argus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mozillasecurity/issues",
+    "email": "cdiehl@mozilla.com"
+  },
+  "author": "Christoph Diehl <cdiehl@mozilla.com>",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "convict": "^4.0.1",
+    "eslint": "^4.8.0",
+    "express": "^4.16.0",
+    "express-winston": "^2.4.0",
+    "fs-extra": "^4.0.2",
+    "gitlog": "^3.0.2",
+    "jsonwebtoken": "^8.0.1",
+    "kue": "^0.11.6",
+    "kue-scheduler": "^0.7.4",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.11.14",
+    "simple-git": "^1.77.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.5.5",
+    "standard": "^10.0.3",
+    "snyk": "^1.42.5"
+  }
+}

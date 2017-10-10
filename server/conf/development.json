@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": 3001
+  },
+  "database": {
+    "host": "localhost",
+    "name": "RepoDB3"
+  },
+  "api": {
+    "credentials": {
+      "secret": "changeme"
+    }
+  },
+  "repository": {
+    "git": {
+      "path": "/tmp",
+      "depth": 10000,
+      "commits": 1000,
+      "buffer": 1024000
+    }
+  },
+  "logger": {
+    "path": "logs"
+  }
+}

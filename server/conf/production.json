@@ -1,0 +1,25 @@
+{
+  "server": {
+    "port": 80
+  },
+  "database": {
+    "host": "localhost",
+    "name": "Repositories"
+  },
+  "api": {
+    "credentials": {
+      "secret": "changeme"
+    }
+  },
+  "repository": {
+    "git": {
+      "path": "/srv/argus",
+      "depth": 10000,
+      "commits": 1000,
+      "buffer": 1024000
+    }
+  },
+  "logger": {
+    "path": "/var/log/"
+  }
+}

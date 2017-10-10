@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.7.1
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'npm:debug:20170905':
+    - kue-scheduler > date.js > debug:
+        reason: 'Low severity, no patch, blocking release'
+        expires: '2017-11-08T18:43:36.387Z'
+      pm2 > chokidar > fsevents > node-pre-gyp > tar-pack > debug:
+        reason: 'Low severity, no patch, blocking release'
+        expires: '2017-11-08T21:24:01.438Z'
+  'npm:shelljs:20140723':
+    - pm2 > shelljs:
+        reason: Noted.
+        expires: '2017-11-08T21:24:01.439Z'
+patch: {}
