@@ -10,39 +10,35 @@ exports.signup = (req, res) => {
 
   newUser.hash_password = bcrypt.hashSync(req.body.password, 10)
 
-  newUser.save((err, user) => {
-    if (err) {
-      return res.status(400).send({message: err})
-    } else {
+  newUser
+    .save()
+    .then((user) => {
       user.hash_password = undefined
       return res.json(user)
-    }
-  })
+    })
+    .catch((error) => {
+      return res.status(400).send({message: error.errmsg})
+    })
 }
 
 exports.signin = (req, res) => {
-  User.findOne({
-    email: req.body.email
-  }, (err, user) => {
-    if (err) {
-      throw err
-    }
-    if (!user || !user.comparePassword(req.body.password)) {
-      return res.status(401).json({
-        message: 'Authentication failed. Invalid user or password.'
-      })
-    } else if (user) {
-      if (!user.comparePassword(req.body.password)) {
-        res.status(401).json({ message: 'Authentication failed. Wrong password.' })
-      } else {
-        return res.json({
-          token: jwt.sign({
-            email: user.email, fullName: user.fullName, _id: user._id
-          }, conf.get('api.credentials.secret'))
-        })
+  User
+    .findOne({email: req.body.email})
+    .then((user) => {
+      if (!user || !user.comparePassword(req.body.password)) {
+        return res.status(401).json({message: 'Authentication failed.'})
       }
-    }
-  })
+      return res.json({
+        token: jwt.sign({
+          _id: user._id,
+          email: user.email,
+          username: user.username
+        }, conf.get('api.credentials.secret'))
+      })
+    })
+    .catch((error) => {
+      throw error
+    })
 }
 
 exports.loginRequired = (req, res, next) => {
@@ -50,6 +46,6 @@ exports.loginRequired = (req, res, next) => {
     // User is authenticated, move on.
     next()
   } else {
-    return res.status(401).json({message: 'You are not an authorized user!'})
+    return res.status(401).send({message: 'You are not an authorized user!'})
   }
 }
