@@ -13,7 +13,7 @@
   "scripts": {
     "test": "export NODE_ENV=test && mocha server/test --reporter=spec --exit && snyk test && standard",
     "development": "pm2 start server/server.js --watch",
-    "coverage": "istanbul cover _mocha server/test --- --exit",
+    "coverage": "export NODE_ENV=test && istanbul cover _mocha server/test -- --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "precommit": "npm test"
   },

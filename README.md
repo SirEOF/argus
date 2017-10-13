@@ -30,10 +30,6 @@ npm install
 
 ```bash
 npm run development
-
-or
-
-pm2 start server/server.js --watch
 ```
 
 ### API
@@ -51,7 +47,7 @@ pm2 start server/server.js --watch
 
 The ```x-access-token``` header needs to be set in order to make a request to any API path. The JWT token can be obtained during the ```signin``` process.
 
-### Testing
+### Testing and Coverage
 
 ```bash
 npm test
@@ -60,3 +56,7 @@ npm test
 **NOTE:** Before each commit ```npm test``` is run to prevent any potentially test failure and style issues from being accidentally pushed.
 
 Tests are written with the assertion library [ChaiJS](http://chaijs.com/api/bdd) running with the [MochaJS](https://mochajs.org) test framework.
+
+```bash
+npm run coverage
+```
