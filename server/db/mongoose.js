@@ -10,7 +10,7 @@ mongoose.Promise = global.Promise
 const databaseURI = `mongodb://${conf.get('database.host')}/${conf.get('database.name')}`
 
 mongoose.connect(databaseURI, {useMongoClient: true})
-  .then(() => logger.info('MongoDB connection established.'))
+  .then(() => logger.info(`MongoDB connection to ${databaseURI} established.`))
   .catch(() => {
     logger.error('MongoDB failed to connect to server.')
     process.exit(1)

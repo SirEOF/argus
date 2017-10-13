@@ -71,6 +71,8 @@ let conf = convict({
   }
 })
 
+process.env.NODE_ENV = conf.get('env')
+
 conf.loadFile(path.join(__dirname, conf.get('env') + '.json')).validate({allowed: 'strict'})
 
 module.exports = conf

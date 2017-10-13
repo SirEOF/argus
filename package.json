@@ -11,9 +11,14 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "snyk test && standard",
+    "test": "export NODE_ENV=test && mocha server/test --reporter=spec --exit && snyk test && standard",
     "development": "pm2 start server/server.js --watch",
     "precommit": "npm test"
+  },
+  "standard": {
+    "env": {
+      "mocha": true
+    }
   },
   "homepage": "https://github.com/mozillasecurity/argus",
   "repository": {
@@ -44,6 +49,8 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "husky": "^0.14.3",
     "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",

@@ -59,7 +59,7 @@ app.use(function (req, res, next) {
   next(err)
 })
 
-if (conf.get('env') === 'development') {
+if (conf.get('env') === 'development' || conf.get('env') === 'test') {
   app.use(function (err, req, res, next) {
     res.status(err.status || 500).json({error: {message: err.message}})
   })
@@ -72,7 +72,7 @@ if (conf.get('env') === 'production') {
 }
 
 // Run this app.
-let server = app.listen(conf.get('server.port'), () => {
+const server = app.listen(conf.get('server.port'), () => {
   logger.info(`API app started to listen on port ${conf.get('server.port')} in ${conf.get('env')} mode.`)
 })
 

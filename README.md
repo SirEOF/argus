@@ -55,3 +55,7 @@ The ```x-access-token``` header needs to be set in order to make a request to an
 ```bash
 npm test
 ```
+
+**NOTE:** Before each commit ```npm test``` is run to prevent any potentially test failure and style issues from being accidentally pushed.
+
+Tests are written with the assertion library [ChaiJS](http://chaijs.com/api/bdd) running with the [MochaJS](https://mochajs.org) test framework.

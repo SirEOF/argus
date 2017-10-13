@@ -1,3 +1,4 @@
+'using strict'
 const kue = require('kue')
 
 const GitManager = require('../lib/git')
@@ -10,6 +11,9 @@ queue.process('clone', 4, function (task, done) {
   Repository
     .findById(task.data.id)
     .then((repository) => {
+      if (!repository) {
+        throw new Error('Repository not found.')
+      }
       console.log('Perform cloning of repository:', repository.remote)
       GitManager
         .clone(repository.remote, repository.name)
@@ -80,6 +84,9 @@ queue.process('pull', 4, function (task, done) {
   Repository
     .findById(task.data.id)
     .then((repository) => {
+      if (!repository) {
+        throw new Error('Repository not found.')
+      }
       console.log('Perform update of repository:', repository.remote)
       GitManager
         .pull(repository.name)

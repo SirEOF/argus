@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
     .save()
     .then((user) => {
       user.hash_password = undefined
-      return res.json(user)
+      return res.status(201).json(user)
     })
     .catch((error) => {
       return res.status(400).send({message: error.errmsg})
@@ -26,7 +26,7 @@ exports.signin = (req, res) => {
     .findOne({email: req.body.email})
     .then((user) => {
       if (!user || !user.comparePassword(req.body.password)) {
-        return res.status(401).json({message: 'Authentication failed.'})
+        return res.status(401).send({message: 'Authentication failed.'})
       }
       return res.json({
         token: jwt.sign({

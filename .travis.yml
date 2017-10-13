@@ -3,3 +3,6 @@ node_js:
   - '8'
 after_success:
   - snyk monitor
+services:
+  - redis-server
+  - mongodb

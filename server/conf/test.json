@@ -1,10 +1,10 @@
 {
   "server": {
-    "port": 3000
+    "port": 3002
   },
   "database": {
     "host": "localhost",
-    "name": "RepoDB3"
+    "name": "TestDB"
   },
   "api": {
     "credentials": {
@@ -14,8 +14,8 @@
   "repository": {
     "git": {
       "path": "/tmp",
-      "depth": 10000,
-      "commits": 1000,
+      "depth": 5,
+      "commits": 5,
       "buffer": 1024000
     }
   },
