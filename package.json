@@ -13,6 +13,8 @@
   "scripts": {
     "test": "export NODE_ENV=test && mocha server/test --reporter=spec --exit && snyk test && standard",
     "development": "pm2 start server/server.js --watch",
+    "coverage": "istanbul cover _mocha server/test --- --exit",
+    "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "precommit": "npm test"
   },
   "standard": {
@@ -51,9 +53,12 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
+    "coveralls": "^3.0.0",
     "husky": "^0.14.3",
+    "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",
     "mocha": "^4.0.1",
+    "mocha-lcov-reporter": "^1.3.0",
     "snyk": "^1.42.5",
     "standard": "^10.0.3"
   }
