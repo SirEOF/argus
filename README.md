@@ -1,16 +1,15 @@
 <p align="center">
-![Logo](https://github.com/posidron/posidron.github.io/raw/master/static/images/argus.png)
+  <img src="https://github.com/posidron/posidron.github.io/raw/master/static/images/argus.png" alt="Logo" />
 </p>
 
 <p align="center">
 A source code management monitoring system written in NodeJS.
 </p>
 
-<p align="center">
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://api.travis-ci.org/MozillaSecurity/argus.svg?branch=master)](https://travis-ci.org/MozillaSecurity/argus) [![Known Vulnerabilities](https://snyk.io/test/github/mozillasecurity/argus/badge.svg)](https://snyk.io/test/github/mozillasecurity/argus)
 [![Coverage Status](https://coveralls.io/repos/github/MozillaSecurity/argus/badge.svg?branch=master)](https://coveralls.io/github/MozillaSecurity/argus?branch=master) [![IRC](https://img.shields.io/badge/IRC-%23fuzzing-1e72ff.svg?style=flat)](https://www.irccloud.com/invite?channel=%23fuzzing&amp;hostname=irc.mozilla.org&amp;port=6697&amp;ssl=1)
-</p>
+
 
 ## Documentation
 
