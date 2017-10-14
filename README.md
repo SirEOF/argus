@@ -1,11 +1,22 @@
+<p align="center">
 ![Logo](https://github.com/posidron/posidron.github.io/raw/master/static/images/argus.png)
+</p>
 
+<p align="center">
+A source code management monitoring system written in NodeJS.
+</p>
+
+<p align="center">
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Build Status](https://api.travis-ci.org/MozillaSecurity/argus.svg?branch=master)](https://travis-ci.org/MozillaSecurity/argus) [![Known Vulnerabilities](https://snyk.io/test/github/mozillasecurity/argus/badge.svg)](https://snyk.io/test/github/mozillasecurity/argus)
 [![Coverage Status](https://coveralls.io/repos/github/MozillaSecurity/argus/badge.svg?branch=master)](https://coveralls.io/github/MozillaSecurity/argus?branch=master) [![IRC](https://img.shields.io/badge/IRC-%23fuzzing-1e72ff.svg?style=flat)](https://www.irccloud.com/invite?channel=%23fuzzing&amp;hostname=irc.mozilla.org&amp;port=6697&amp;ssl=1)
+</p>
 
+## Documentation
 
-### Prerequisites
+[https://mozillasecurity.github.io/argus](https://mozillasecurity.github.io/argus)
+
+## Prerequisites
 
 [Redis](https://redis.io/download) and
 [MongoDB](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition) are required.
@@ -14,25 +25,25 @@
 brew install redis mongodb
 ```
 
-### Setup Prerequisites
+## Setup Prerequisites
 
 ```bash
 redis-sever
 mongodb --dbpath=/tmp/
 ```
 
-### Setup
+## Setup
 ```bash
 npm install
 ```
 
-### Development
+## Development
 
 ```bash
 npm run development
 ```
 
-### API
+## API
 
 | Type   | Path           | Description                |
 | -------|:---------------| :--------------------------|
@@ -47,7 +58,7 @@ npm run development
 
 The ```x-access-token``` header needs to be set in order to make a request to any API path. The JWT token can be obtained during the ```signin``` process.
 
-### Testing and Coverage
+## Testing and Coverage
 
 ```bash
 npm test
