@@ -6,9 +6,13 @@
 A source code management monitoring system written in NodeJS.
 </p>
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![Build Status](https://api.travis-ci.org/MozillaSecurity/argus.svg?branch=master)](https://travis-ci.org/MozillaSecurity/argus) [![Known Vulnerabilities](https://snyk.io/test/github/mozillasecurity/argus/badge.svg)](https://snyk.io/test/github/mozillasecurity/argus)
-[![Coverage Status](https://coveralls.io/repos/github/MozillaSecurity/argus/badge.svg?branch=master)](https://coveralls.io/github/MozillaSecurity/argus?branch=master) [![IRC](https://img.shields.io/badge/IRC-%23fuzzing-1e72ff.svg?style=flat)](https://www.irccloud.com/invite?channel=%23fuzzing&amp;hostname=irc.mozilla.org&amp;port=6697&amp;ssl=1)
+<p align="center">
+<a href="https://standardjs.com"><img src="https://img.shields.io/badge/code_style-standard-brightgreen.svg" alt="JavaScript Style Guide"></a>
+<a href="https://travis-ci.org/MozillaSecurity/argus"><img src="https://api.travis-ci.org/MozillaSecurity/argus.svg?branch=master" alt="Build Status"></a>
+<a href="https://snyk.io/test/github/mozillasecurity/argus"><img src="https://snyk.io/test/github/mozillasecurity/argus/badge.svg" alt="Known Vulnerabilities"></a>
+<a href="https://coveralls.io/github/MozillaSecurity/argus?branch=master"><img src="https://coveralls.io/repos/github/MozillaSecurity/argus/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://www.irccloud.com/invite?channel=%23fuzzing&amp;hostname=irc.mozilla.org&amp;port=6697&amp;ssl=1"><img src="https://img.shields.io/badge/IRC-%23fuzzing-1e72ff.svg?style=flat" alt="IRC"></a>
+</p>
 
 
 ## Documentation
