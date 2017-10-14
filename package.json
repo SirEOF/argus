@@ -15,6 +15,7 @@
     "development": "pm2 start server/server.js --watch",
     "coverage": "export NODE_ENV=test && istanbul cover _mocha server/test -- --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
+    "docs": "documentation build server/**/*.js -f html -o docs",
     "precommit": "npm test"
   },
   "standard": {
@@ -54,6 +55,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "coveralls": "^3.0.0",
+    "documentation": "^5.3.3",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "jsdoc": "^3.5.5",

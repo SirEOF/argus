@@ -1,9 +1,21 @@
 language: node_js
 node_js:
-  - '8'
+- '8'
 after_success:
-  - npm run coveralls
-  - snyk monitor
+- npm run coveralls
+- snyk monitor
+- npm run docs
 services:
-  - redis-server
-  - mongodb
+- redis-server
+- mongodb
+deploy:
+  provider: pages
+  skip_cleanup:true
+  local_dir: docs
+  github_token: "$GH_TOKEN"
+  on:
+    branch: master
+env:
+  global:
+  - secure: iB+bZXw5WZZ2ca/eQcDVL+Etm3cMUr1sP+6n/tS5T3wm0qEWGgjXozNLwJFMyBUmtMvq29xPBO7gRG2g1InAK8XU4maknVqWvbD6H0IgkpP7aZD4eS4GyqQTW4+lCepNsIIp12DDC/BPmEy4IcIvADfwMs2TUzZ/alqAmuRLSRCxpB7SYIb0YyTaA0Frwk0iMIYMg417uihgsoAttLQnqPEUp2Qv/40L+K76N0qMaZrataA3dZtaqF7VWP/IOVp5DUK90lcgQHj29HOFFK8r1hqcx/AblHL2SLG9FgL9PCa60QzYGRcgPFH3pfCDRcRc9KHTF8pDzQhSmWhoghMlXAGP780kdNGHEESMq88wxpQsL+4xvesf8diaDWjmHDFF2dNqCu5vaml9T8lEdf5F9efiTBOxU+YkngUqJcuIFlBP8GN1qVmAk/avDkO0luRtObIMvdj7WhAyQJBzIdu0bPE5YFYB6qUymabJwriTB61AUkNgf8Tq53dO+en8KQdRvDgheE9wDuyjW/dRWfk7B7VPHYR75079Bl+qoYq6nOCmi08jrYMSbrWBh8wv3xqZg2y97J0cjJ+OEI5a+KW+0oxZ083tirgDGZ4Rgz6lbfArrZ4EszoZpoaNbLmyIrn1AiXhwbBXHkCtXtGEfxFBBvuHkHTJcATnxwkuRWyZaHA=
+  - secure: bRlANeIEeqp4LiqIAMZHh0xCWiLcFEqOMMqr2l+yMSiySYhojLnYBBrpjx/CWFrNJ6a0ABKxsVutwHCVfjhk56lSQoBlGbpEFjabseAHi14/kiEj10ojKDaY56AX05VGZ7SwAdorj7gp5XNZszmYj5xniA+BNmiKqpXEyRytuD92V5CyJXMk0zmuZBcbb0/eOWcj68qGqqMtRV7Y2sagLfngKOiRpu+O4DhJmnYMdpxrs7FLyodxlnG3uV5+ckNHvwoZqXVvoZR9bQUcrk/+Yhxf2rMGedjWXo4KTZTq/rG/idsfF8z6Zw8N6InTlt2ixBpo4iOyPYxb5aPGW7H9QHLMLwPSWHgvIALg+zGlKP7A+H7++uStz4QoMz5H08w//xOjfEnK3DSh/noOE3nKoPzcJfBgWER1UDR0bff/KBr4VDZKJQ+Nk1CbKliYTG9RhtWsSYKefPGINthlPcop/nZ8Eii78warda5EPFuUf2g1G+vZNtkm61zgr0YJWQQKE6fxlnQbC5xTPySSfvNHk9ADRDYRCw46F1gzojARv89+sYfbifjFBLtkPA7UysYzX/qDs9TZTLgwu/EahvablLJh2PtAuyCZkbAWcJ84cnrso2YWgLCarmIuJ+lAKFV9zGQfNdf6xhdOKmmuxnIxRgTJgyu2TyIkqgiigoi6R2I=
