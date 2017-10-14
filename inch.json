@@ -1,6 +1,6 @@
 {
   "files": {
-    "included": ["server/**/*.js"]
+    "included": ["server/**/*.js"],
     "excluded": ["server/test/"]
   }
 }

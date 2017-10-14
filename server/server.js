@@ -4,6 +4,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
 const kue = require('kue')
+const compression = require('compression')
+const helmet = require('helmet')
 
 const conf = require('./conf')
 const logger = require('./logger')
@@ -17,6 +19,8 @@ let app = express()
 
 /* Add middleware */
 app.set('json spaces', 4)
+app.use(compression())
+app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
