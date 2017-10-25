@@ -6,6 +6,10 @@
     "host": "localhost",
     "name": "TestDB"
   },
+  "queue": {
+    "port": 6379,
+    "host": "localhost"
+  },
   "api": {
     "credentials": {
       "secret": "changeme"

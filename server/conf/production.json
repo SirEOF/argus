@@ -4,7 +4,11 @@
   },
   "database": {
     "host": "localhost",
-    "name": "Repositories"
+    "name": "RepoDB"
+  },
+  "queue": {
+    "port": 6379,
+    "host": "localhost"
   },
   "api": {
     "credentials": {

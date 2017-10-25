@@ -25,7 +25,24 @@ let conf = convict({
     name: {
       doc: 'The database name.',
       format: String,
-      default: 'RepoDB3'
+      default: 'RepoDB'
+    }
+  },
+  queue: {
+    port: {
+      doc: 'The port to bind Redis.',
+      format: Number,
+      default: 6379
+    },
+    host: {
+      doc: 'The queue host name or IP address.',
+      format: String,
+      default: 'localhost'
+    },
+    prefix: {
+      doc: 'Key names in Redis',
+      format: String,
+      default: 'q'
     }
   },
   api: {
