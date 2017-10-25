@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 'use strict'
-const express = require('express')
-const vue = require('express-vue');
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
-const kue = require('kue')
 const compression = require('compression')
 const helmet = require('helmet')
 const expressLogger = require('./logger/express')
-const mongoose = require('./db/mongoose')
 const user = require('./api/routes/user')
 const repo = require('./api/routes/repo')
 
@@ -47,7 +43,7 @@ module.exports.init = (app, conf) => {
   // Add routes to middleware.
   app.use('/', user)
   app.use('/api', repo)
-  app.use('/private/kue-ui', kue.app)
+  app.use('/private/kue-ui', require('kue').app)
 
   // Logger to capture any top-level errors and output JSON diagnostic info.
   app.use(expressLogger.expressErrorLogger)
