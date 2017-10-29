@@ -31,9 +31,9 @@ let RepositorySchema = new mongoose.Schema({
   status: {
     type: [{
       type: String,
-      enum: ['queued', 'ongoing', 'active', 'inactive']
+      enum: ['queued', 'pending', 'active', 'inactive', 'failed']
     }],
-    default: ['queued']
+    default: 'queued'
   },
   commits: [{
     type: mongoose.Schema.ObjectId,

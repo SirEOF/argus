@@ -20,7 +20,8 @@
       "path": "/srv/argus",
       "depth": 10000,
       "commits": 1000,
-      "buffer": 1024000
+      "buffer": 1024000,
+      "pulling_schedule": 1800
     }
   },
   "logger": {

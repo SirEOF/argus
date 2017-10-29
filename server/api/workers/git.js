@@ -1,16 +1,18 @@
 'using strict'
-const {kue, queue} = require('../../queue/kue')
+const queue = require('../../queue/kue')
 const logger = require('../../logger')
 const GitManager = require('../lib/git')
 const Repository = require('../models/repo')
 const Commit = require('../models/commit')
 
-queue.process('clone', 4, function (task, done) {
+let tasks = queue.getQueue()
+
+tasks.process('clone', 4, function (task, done) {
   Repository
-    .findById(task.data.id)
+    .findById(task.data._id)
     .then((repository) => {
       if (!repository) {
-        throw new Error('Repository not found.')
+        return done('The requested repository does not exist in the repository directory.')
       }
       logger.info('Performing clone of repository:', repository.remote)
       GitManager
@@ -28,7 +30,7 @@ queue.process('clone', 4, function (task, done) {
                   .catch((error) => { return done(error) })
               })
               repository
-                .set({head: repository.commits[0].hash, status: 'active'})
+                .set({head: repository.commits[0].hash})
                 .save()
                 .then(() => { return done() })
                 .catch((error) => { return done(error) })
@@ -40,51 +42,98 @@ queue.process('clone', 4, function (task, done) {
     .catch((error) => { return done(error) })
 })
 
+/**
+ * Setup task to clone a repository, create work directory and add the commits to the database.
+ * @param  {[type]} meta repository directory entry
+ */
 exports.startTaskClone = (meta) => {
-  const task = queue.create('clone', {name: meta.name, id: meta.id})
+  const name = 'clone'
+  const task = tasks.create(name, meta)
 
   task
     .on('enqueue', () => {
-      logger.info(`Task: ${task.id}-${task.data.name} is queued.`)
+      logger.debug(`Task '${task.data.name}-${task.id}' is queued.`)
     })
     .on('start', () => {
-      // Repository.findById(task.data.id).update()
-      logger.info(`Task ${task.id}-${task.data.name} started.`)
+      logger.info(`Task '${task.data.name}-${task.id}' started.`)
+      Repository
+        .findById({_id: task.data._id})
+        .then((repository) => {
+          if (!repository) {
+            throw new Error('The requested repository does not exist in the repository directory.')
+          }
+          repository
+            .update({
+              $set: {
+                status: 'pending'
+              }
+            })
+            .then(() => {})
+            .catch((error) => {
+              throw error
+            })
+        })
+        .catch((error) => {
+          logger.error(error.message)
+        })
     })
     .on('complete', () => {
-      logger.info(`Task ${task.id}-${task.data.name} is done.`)
-      // set db entry to 'active'
-    })
-    .on('failed', () => {
-      logger.info(`Task ${task.id}-${task.data.name} has failed.`)
+      logger.info(`Task '${task.data.name}-${task.id}' is done.`)
+      Repository
+        .findById(task.data._id)
+        .then((repository) => {
+          queue.addUpdateSchedule(repository)
+          repository
+            .update({
+              $set: {
+                status: 'active'
+              }
+            })
+            .then(() => {})
+            .catch((error) => {
+              throw error
+            })
+        })
+        .catch((error) => {
+          logger.error(error)
+        })
     })
     .on('error', (error) => {
-      logger.info(`Task ${task.id}-${task.data.name} produced an error:\n${error}`)
+      logger.error(`Task '${task.data.name}-${task.id}' produced an error:\n${error}`)
+    })
+    .on('failed', () => {
+      logger.error(`Task '${task.data.name}-${task.id}' has failed.`)
       Repository
-        .findByIdAndRemove(task.data.id)
-        .then(() => {})
-        .catch((error) => logger.error(error))
+        .findByIdAndRemove(task.data._id)
+        .then(() => {
+          logger.warn(`Removed repository entry of '${task.data.remote}' due to failure.`)
+        })
+        .catch((error) => {
+          logger.error(error)
+        })
     })
     .on('remove', () => {
-      logger.info(`Task ${task.id}-${task.data.name} is removed.`)
+      logger.info(`Task '${task.data.name}-${task.id}' is removed.`)
     })
 
   task
     .priority('high')
-    .attempts(1)
-    .backoff({type: 'exponential'})
+    .attempts(4)
+    .backoff({delay: 5000, type: 'exponential'})
     .removeOnComplete(true)
     .save()
 }
 
-queue.process('pull', 4, function (task, done) {
+tasks.process('pull', 4, function (task, done) {
   Repository
-    .findById(task.data.id)
+    .findById(task.data._id)
     .then((repository) => {
       if (!repository) {
-        throw new Error('Repository not found.')
+        tasks.remove({unique: `pull_${task.data.name}`})
+        logger.info(`The scheduler for 'pull_${task.data.name}' has been removed.`)
+        return done('The requested repository was not found.')
       }
-      logger.info('Perform update of repository:', repository.remote)
+      logger.info('Performing update of repository:', repository.remote)
       GitManager
         .pull(repository.name)
         .then(() => {
@@ -113,7 +162,7 @@ queue.process('pull', 4, function (task, done) {
                   head: newCommits[0].hash
                 }
               })
-              .then(() => { })
+              .then(() => { return done() })
               .catch((error) => { return done(error) })
           })
           .catch((error) => { return done(error) })
@@ -123,29 +172,81 @@ queue.process('pull', 4, function (task, done) {
     .catch((error) => { return done(error) })
 })
 
+/**
+ * Setup task to pull latest commits from repository and add them to the database.
+ * @param  {[type]} meta repository directory entry
+ */
 exports.startTaskPull = (meta) => {
-  const task = queue.createJob('pull', {name: meta.name, id: meta.id})
+  const name = 'pull'
+  const task = tasks.create(name, meta)
 
   task
     .on('enqueue', () => {
-      logger.info(`Task: ${task.id}-${task.data.name} is queued.`)
+      logger.debug(`Task '${task.data.name}-${task.id}' is queued.`)
     })
     .on('start', () => {
-      logger.info(`Task: ${task.id}-${task.data.name} started.`)
+      logger.info(`Task ${task.data.name}-${task.id} started.`)
+      Repository
+        .findById({_id: task.data._id})
+        .then((repository) => {
+          repository
+            .update({
+              $set: {
+                status: 'pending'
+              }
+            })
+            .then(() => {})
+            .catch((error) => {
+              throw error
+            })
+        })
+        .catch((error) => {
+          logger.error(error)
+        })
     })
     .on('complete', () => {
-      logger.info(`Task: ${task.id}-${task.data.name} is done.`)
-    })
-    .on('failed', () => {
-      logger.info(`Task: ${task.id}-${task.data.name} has failed.`)
-      kue.Job.get(task.id)
-        .then((job) => {
-          job.remove()
+      logger.info(`Task '${task.data.name}-${task.id}' is done.`)
+      Repository
+        .findOneAndUpdate({_id: task.data._id})
+        .then((repository) => {
+          repository
+            .update({
+              $set: {
+                updated: new Date(),
+                status: 'active'
+              }
+            })
+            .then(() => {})
+            .catch((error) => {
+              throw error
+            })
         })
-        .catch((error) => { throw error })
+        .catch((error) => {
+          logger.error(error)
+        })
     })
     .on('error', (error) => {
-      logger.info(`Task: ${task.id}-${task.data.name} produced an error:\n${error}`)
+      logger.error(`Task '${task.data.name}-${task.id}' produced an error:\n${error}`)
+    })
+    .on('failed', () => {
+      logger.error(`Task '${task.data.name}-${task.id}' has failed.`)
+      Repository
+        .findOneAndUpdate({_id: task.data._id})
+        .then((repository) => {
+          repository
+            .update({
+              $set: {
+                status: 'failed'
+              }
+            })
+            .then(() => {})
+            .catch((error) => {
+              throw error
+            })
+        })
+        .catch((error) => {
+          logger.error(error)
+        })
     })
     .on('remove', () => {
       logger.info(`Task: ${task.id}-${task.data.name} is removed.`)
@@ -154,10 +255,6 @@ exports.startTaskPull = (meta) => {
   task
     .priority('high')
     .attempts(1)
-    .backoff({type: 'exponential'})
     .removeOnComplete(true)
     .save()
-
-  queue.watchStuckJobs()
-  queue.every('60 seconds', task)
 }

@@ -29,7 +29,7 @@ exports.add = (req, res, next) => {
     .save()
     .then((repository) => {
       GitWorker
-        .startTaskClone({name: meta.name, id: repository._id})
+        .startTaskClone(repository)
       res.json(repository)
     })
     .catch(next)
@@ -75,7 +75,7 @@ exports.update = (req, res, next) => {
       if (!repository) {
         return next()
       }
-      GitWorker.startTaskPull({name: repository.name, id: id})
+      GitWorker.startTaskPull(repository)
       res.json({})
     })
     .catch(next)

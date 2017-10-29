@@ -11,8 +11,8 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "export NODE_ENV=test && mocha server/test --reporter=spec --exit && snyk test && standard",
-    "development": "pm2 start server/server.js --watch",
+    "test": "export NODE_ENV=test && standard && mocha server/test --reporter=spec --exit && snyk test",
+    "development": "pm2 start server/server.js --watch && pm2 logs",
     "coverage": "export NODE_ENV=test && istanbul cover _mocha server/test -- --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "docs": "documentation build server/**/*.js -f html -o docs",

@@ -21,7 +21,11 @@ exports.clone = (remote, name) => {
 
 exports.pull = (name) => {
   return new Promise((resolve, reject) => {
-    git(path.join(conf.get('repository.git.path'), name))
+    const repodir = path.join(conf.get('repository.git.path'), name)
+    if (!fs.existsSync(repodir)) {
+      reject(new Error(`Repository directory '${repodir}' does not exist.`))
+    }
+    git(repodir)
       .pull()
       .then(() => resolve())
       .catch((error) => reject(error))

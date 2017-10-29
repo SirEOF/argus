@@ -40,7 +40,7 @@ let conf = convict({
       default: 'localhost'
     },
     prefix: {
-      doc: 'Key names in Redis',
+      doc: 'Key names in Redis.',
       format: String,
       default: 'q'
     }
@@ -68,7 +68,7 @@ let conf = convict({
         default: 10000
       },
       commits: {
-        doc: 'The amount of commits to return per request',
+        doc: 'The amount of commits to return per request.',
         format: 'int',
         default: 1000
       },
@@ -76,6 +76,11 @@ let conf = convict({
         doc: '',
         format: 'int',
         default: 1024000
+      },
+      pulling_schedule: {
+        doc: 'The interval (seconds) for pulling new commits.',
+        format: 'int',
+        default: 1800
       }
     }
   },
