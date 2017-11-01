@@ -11,12 +11,16 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "export NODE_ENV=test && standard && mocha server/test --reporter=spec --exit && snyk test",
-    "development": "pm2 start server/server.js --watch && pm2 logs",
+    "test": "npm run test:lint && npm run && npm run test:unit && npm run test:snyk",
+    "test:lint": "cross-env NODE_ENV=test standard",
+    "test:unit": "cross-env NODE_ENV=test mocha server/test --reporter=spec --exit",
+    "test:snyk": "snyk test",
+    "development": "cross-env NODE_ENV=development pm2 start server/server.js --watch && pm2 logs",
+    "production": "cross-env NODE_ENV=production pm2 start server/server.js",
     "coverage": "export NODE_ENV=test && istanbul cover _mocha server/test -- --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat ./coverage/lcov.info | coveralls",
     "docs": "documentation build server/**/*.js -f html -o docs",
-    "precommit": "npm test"
+    "precommit": "npm run test:lint && npm run test:unit"
   },
   "standard": {
     "env": {
@@ -58,6 +62,7 @@
     "chai": "^4.1.2",
     "chai-http": "^3.0.0",
     "coveralls": "^3.0.0",
+    "cross-env": "^5.1.1",
     "documentation": "^5.3.3",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
