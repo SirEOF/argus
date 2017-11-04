@@ -6,7 +6,7 @@ sudo file -s /dev/xvdb
 sudo mkfs -t ext4 /dev/xvdb
 sudo mkdir /data
 sudo mount /dev/xvdb /data
-chown $USER:root /data
+sudo chown $USER:root /data
 
 # Attach EBS on reboot
 sudo tee -a /etc/fstab << EOF

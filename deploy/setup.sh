@@ -1,8 +1,7 @@
 #!/bin/bash -ex
 
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get dist-upgrade
+sudo apt-get dist-upgrade -y
 #sudo apt-get install update-manager-core
 #sudo do-release-upgrade
 
