@@ -38,12 +38,12 @@ before(function (done) {
 })
 
 describe('Check API access permissions', function () {
-  describe('GET /api/repo', function () {
+  describe('GET /api/v1/repo', function () {
     it('Get repositories only for authenticated users', function (done) {
       request(server)
-        .get('/api/repo')
+        .get('/api/v1/repo')
         .then(function (res) {
-          throw new Error('GET /api/repo is public accessible.')
+          throw new Error('GET /api/v1/repo is public accessible.')
         })
         .catch(function (err) {
           expect(err).to.have.status(401)
@@ -52,13 +52,13 @@ describe('Check API access permissions', function () {
     })
   })
 
-  describe('POST /api/repo', function () {
+  describe('POST /api/v1/repo', function () {
     it('Add repositories only for authenticated users', function (done) {
       request(server)
-        .post('/api/repo')
+        .post('/api/v1/repo')
         .send(repos[0])
         .then(function (res) {
-          throw new Error('POST /api/repo is public accessible.')
+          throw new Error('POST /api/v1/repo is public accessible.')
         })
         .catch(function (err) {
           expect(err).to.have.status(401)
@@ -100,7 +100,7 @@ describe('Create Account, Login and Check Token', function () {
           const token = res.body.token
 
           request(server)
-            .get('/api/repo')
+            .get('/api/v1/repo')
             .set('x-access-token', token)
             .then(function (res) {
               expect(res).to.have.status(200)
@@ -130,7 +130,7 @@ describe('Add and get repository', function () {
   let token
   let repositoryId
 
-  describe('POST /api/repo', function () {
+  describe('POST /api/v1/repo', function () {
     it('Add a repository', function (done) {
       User
         .findOne({'email': 'johndoe@acme.com'})
@@ -142,7 +142,7 @@ describe('Add and get repository', function () {
           }, conf.get('api.credentials.secret'))
 
           request(server)
-            .post('/api/repo')
+            .post('/api/v1/repo')
             .set('x-access-token', token)
             .send(repos[0])
             .then(function (res) {
@@ -157,10 +157,10 @@ describe('Add and get repository', function () {
     })
   })
 
-  describe('GET /api/repo', function () {
+  describe('GET /api/v1/repo', function () {
     it('Fetch repository entry', function (done) {
       request(server)
-        .get('/api/repo')
+        .get('/api/v1/repo')
         .set('x-access-token', token)
         .then(function (res) {
           expect(res).to.have.status(200)
@@ -175,10 +175,10 @@ describe('Add and get repository', function () {
     })
   })
 
-  describe('GET /api/repo/:id', function () {
+  describe('GET /api/v1/repo/:id', function () {
     it('Fetch added repository', function (done) {
       request(server)
-        .get('/api/repo/' + repositoryId)
+        .get('/api/v1/repo/' + repositoryId)
         .set('x-access-token', token)
         .then(function (res) {
           expect(res).to.have.status(200)

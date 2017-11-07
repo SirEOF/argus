@@ -2,6 +2,8 @@
 'use strict'
 const bodyParser = require('body-parser')
 const jwt = require('jsonwebtoken')
+const path = require('path')
+const favicon = require('serve-favicon')
 const compression = require('compression')
 const helmet = require('helmet')
 const expressLogger = require('./logger/express')
@@ -11,8 +13,50 @@ const repo = require('./api/routes/repo')
 module.exports.init = (app, conf) => {
   /* Add middleware */
   app.set('json spaces', 4)
-  app.use(compression())
+  app.use(compression({
+    level: 9,
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false
+      }
+      return compression.filter(req, res)
+    }
+  }))
   app.use(helmet())
+
+  app.set('views', path.join(__dirname, 'views'))
+  app.set('view engine', 'pug')
+
+  app.use(favicon(path.join(__dirname, 'public', 'favicon.png')))
+
+  const webpack = require('webpack')
+  const webpackConfig = require('../../webpack.config')
+  const compiler = webpack(webpackConfig)
+
+  app.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true, publicPath: webpackConfig.output.publicPath
+  }))
+
+  app.use(require('webpack-hot-middleware')(compiler, {
+    log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000
+  }))
+
+  app.get('*.js', (req, res, next) => {
+    req.url = req.url + '.gz'
+    res.set('Content-Encoding', 'gzip')
+    res.set('Content-Type', 'text/javascript')
+    next()
+  })
+
+  app.get('*.css', (req, res, next) => {
+    req.url = req.url + '.gz'
+    res.set('Content-Encoding', 'gzip')
+    res.set('Content-Type', 'text/css')
+    next()
+  })
+
+  app.use(require('express').static(path.join(__dirname, 'public')))
+
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
 
@@ -40,10 +84,13 @@ module.exports.init = (app, conf) => {
     })
   })
 
+  // Add route which will load our Vue app.
+  app.use('/', require('./routes/page'))
+
   // Add routes to middleware.
   app.use('/', user)
-  app.use('/api', repo)
-  app.use('/private/kue-ui', require('kue').app)
+  app.use('/api/v1', repo)
+  // app.use('/private/kue-ui', require('kue').app)
 
   // Logger to capture any top-level errors and output JSON diagnostic info.
   app.use(expressLogger.expressErrorLogger)
