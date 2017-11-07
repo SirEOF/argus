@@ -19,6 +19,14 @@ A source code management monitoring system written in NodeJS.
 
 [https://mozillasecurity.github.io/argus](https://mozillasecurity.github.io/argus)
 
+This app follows the MEVN stack.
+
+## Client WebUI
+
+**NOTE:** This project does not make use of Babel or any other transpiler. Most features it makes
+use of are available natively in Firefox. Though you must enable the property
+```dom.moduleScripts.enabled``` in order to make the 'import' statement accessible.
+
 ## Prerequisites
 
 [Redis](https://redis.io/download) and
@@ -42,21 +50,23 @@ npm install
 
 ## Development
 
+Development mode does support hot reloading through Webpack middleware.
+
 ```bash
 npm run development
 ```
 
 ## API
 
-| Type   | Path           | Description                |
-| -------|:---------------| :--------------------------|
-| GET    | /signup        | Register                   |
-| POST   | /signin        | Retrieving the JWT         |
-| GET    | /api/repos/    | Get a list of repositories |
-| POST   | /api/repos     | Add a repository           |
-| GET    | /api/repos/:id | Get commits                |
-| DELETE | /api/repos/:id | Delete a repository        |
-| PUT    | /api/repos/:id | Force pulling a repository |
+| Type   | Path              | Description                |
+| -------|:------------------| :--------------------------|
+| GET    | /signup           | Register                   |
+| POST   | /signin           | Retrieving the JWT         |
+| GET    | /api/v1/repos/    | Get a list of repositories |
+| POST   | /api/v1/repos     | Add a repository           |
+| GET    | /api/v1/repos/:id | Get commits                |
+| DELETE | /api/v1/repos/:id | Delete a repository        |
+| PUT    | /api/v1/repos/:id | Force pulling a repository |
 
 
 The ```x-access-token``` header needs to be set in order to make a request to any API path. The JWT token can be obtained during the ```signin``` process.
