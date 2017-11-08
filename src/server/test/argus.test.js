@@ -39,15 +39,8 @@ before(function (done) {
 
 describe('Check API access permissions', function () {
   before(function (done) {
-    /*
-    - Kue needs a separate queue for tests.
-      - A run of this unit test suite will leave the scheduler of the test repository in the queue.
-      This leads to that simple-git complains that the repository does not exists in a second run
-      of this unit test suite because we delete the repository before the unit test runs.
-    - Tests should run when |server| emits a "finished" event.
-    */
     this.timeout(20000)
-    setTimeout(done, 5000)
+    setTimeout(done, 10000)
   })
 
   describe('GET /api/v1/repo', function () {
