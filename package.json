@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "npm run test:lint && npm run && npm run test:unit && npm run test:snyk",
-    "test:lint": "cross-env NODE_ENV=test standard",
+    "test:lint": "cross-env NODE_ENV=test standard --verbose",
     "test:unit": "cross-env NODE_ENV=test mocha src/server/test --reporter=spec --exit",
     "test:snyk": "snyk test",
     "build:development": "cross-env NODE_ENV=development webpack --progress",
@@ -26,6 +26,10 @@
     "precommit": "npm run test:lint && npm run test:unit"
   },
   "standard": {
+    "ignore": [
+      "src/client/**",
+      "src/server/public/javascripts/app.bundle.js"
+    ],
     "env": {
       "mocha": true
     }
