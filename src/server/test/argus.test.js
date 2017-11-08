@@ -38,12 +38,24 @@ before(function (done) {
 })
 
 describe('Check API access permissions', function () {
+  before(function (done) {
+    /*
+    - Kue needs a separate queue for tests.
+      - A run of this unit test suite will leave the scheduler of the test repository in the queue.
+      This leads to that simple-git complains that the repository does not exists in a second run
+      of this unit test suite because we delete the repository before the unit test runs.
+    - Tests should run when |server| emits a "finished" event.
+    */
+    this.timeout(20000)
+    setTimeout(done, 5000)
+  })
+
   describe('GET /api/v1/repo', function () {
     it('Get repositories only for authenticated users', function (done) {
       request(server)
         .get('/api/v1/repo')
         .then(function (res) {
-          throw new Error('GET /api/v1/repo is public accessible.')
+          done(new Error('GET /api/v1/repo is public accessible.'))
         })
         .catch(function (err) {
           expect(err).to.have.status(401)
@@ -58,7 +70,7 @@ describe('Check API access permissions', function () {
         .post('/api/v1/repo')
         .send(repos[0])
         .then(function (res) {
-          throw new Error('POST /api/v1/repo is public accessible.')
+          done(new Error('POST /api/v1/repo is public accessible.'))
         })
         .catch(function (err) {
           expect(err).to.have.status(401)
@@ -124,7 +136,7 @@ describe('Add and get repository', function () {
 
   beforeEach(function (done) {
     this.timeout(20000)
-    setTimeout(done, 5000)
+    setTimeout(done, 10000)
   })
 
   let token
