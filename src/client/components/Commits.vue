@@ -2,7 +2,7 @@
   <div class="container">
     <el-table
       :data="tableData"
-      :default-sort="{prop: 'committerDate', order: 'ascending'}"
+      :default-sort="{prop: 'committerDate', order: 'descending'}"
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">

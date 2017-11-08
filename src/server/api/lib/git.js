@@ -3,7 +3,7 @@ const path = require('path')
 
 const fs = require('fs-extra')
 const git = require('simple-git/promise')
-const gitlog = require('gitlog')
+const gitlog = require('./git/log')
 
 const conf = require('../../conf')
 

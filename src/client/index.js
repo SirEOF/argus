@@ -12,7 +12,7 @@ Vue.config.debug = true
 Vue.config.productionTip = false
 
 // Register custom filters for interpolation in Vue.
-Vue.filter('formatDate', function(value) {
+Vue.filter('formatDate', function (value) {
   if (value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm')
   }
