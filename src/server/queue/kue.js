@@ -80,7 +80,7 @@ const initUpdateScheduler = () => {
             if (job.type === 'pull') {
               logger.info(`[Scheduler] Update for repository '${job.data.name}' succeeded.`)
               Repository
-                .findOneAndUpdate({_id: job.data._id})
+                .findById({_id: job.data._id})
                 .then((repo) => {
                   if (!repo) {
                     return
@@ -109,7 +109,7 @@ const initUpdateScheduler = () => {
               logger.error(reason)
 
               Repository
-                .findOneAndUpdate({_id: job.data._id})
+                .findById({_id: job.data._id})
                 .then((repository) => {
                   if (!repository) {
                     return

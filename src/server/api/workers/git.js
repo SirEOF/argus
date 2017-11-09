@@ -207,7 +207,7 @@ exports.startTaskPull = (meta) => {
     .on('complete', () => {
       logger.info(`Task '${task.data.name}-${task.id}' is done.`)
       Repository
-        .findOneAndUpdate({_id: task.data._id})
+        .findById({_id: task.data._id})
         .then((repository) => {
           repository
             .update({
@@ -231,7 +231,7 @@ exports.startTaskPull = (meta) => {
     .on('failed', () => {
       logger.error(`Task '${task.data.name}-${task.id}' has failed.`)
       Repository
-        .findOneAndUpdate({_id: task.data._id})
+        .findById({_id: task.data._id})
         .then((repository) => {
           repository
             .update({
