@@ -21,7 +21,7 @@ A source code management monitoring system written in NodeJS.
 
 This app follows the MEVN stack.
 
-## Client WebUI
+## Client WebApp
 
 **NOTE:** This project does not make use of Babel or any other transpiler. Most features it makes
 use of are available natively in Firefox. Though you must enable the property
