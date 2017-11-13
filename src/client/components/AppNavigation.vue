@@ -7,12 +7,9 @@
              text-color="#fff"
              active-text-color="#ffd04b"
              router>
-      <el-col :span="4" class="logo-container">
-        <img src="../assets/images/favicon.png" alt="" class="logo">
-      </el-col>
       <el-menu-item index="1" :route="{name:'Dashboard'}">Argus</el-menu-item>
-      <el-menu-item index="2" :route="{name:'List'}"><i class="fa fa-eye"></i> Observation</el-menu-item>
-      <el-menu-item index="3" :route="{name:'Add'}"><i class="fa fa-puzzle-piece"></i> Add</el-menu-item>
+      <el-menu-item index="2" :route="{name:'List'}">Observation</el-menu-item>
+      <el-menu-item index="3" :route="{name:'Add'}">Add</el-menu-item>
       <el-submenu index="4" style="float: right;">
         <template slot="title">
           <i class="fa fa-user-secret"></i> <em>{{ user }}</em>
