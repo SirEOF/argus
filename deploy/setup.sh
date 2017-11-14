@@ -7,11 +7,9 @@ sudo apt-get dist-upgrade -y
 
 sudo apt-get install -y build-essential software-properties-common git
 
-./ebs.sh
-./argus.sh
-./mongod.sh
-./redis.sh
-./node.sh
-./pm2.sh
-#./letsencrypt.sh
-./nginx.sh
+./scripts/ebs.sh
+./scripts/argus.sh
+./scripts/mongod.sh
+./scripts/redis.sh
+./scripts/node.sh
+./scripts/pm2.sh
