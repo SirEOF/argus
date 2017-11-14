@@ -6,11 +6,7 @@
       style="width: 100%">
       <el-table-column type="expand">
         <template slot-scope="props">
-          <p>Id:
-            <router-link :to="'/commits/' + $route.params.id + '/' + props.row._id">
-              {{ props.row._id }}
-            </router-link>
-          </p>
+          <p>Id: {{ props.row._id }}</p>
           <p>Hash: {{ props.row.hash }}</p>
           <p>Author: {{ props.row.authorEmail }}</p>
         </template>
@@ -49,7 +45,7 @@ import axios from 'axios'
 import Auth from '../lib/auth'
 
 export default {
-  name: "Commits",
+  name: "Commit",
   data () {
     return {
       tableData: [{}]
@@ -58,7 +54,7 @@ export default {
   methods: {
   },
   created () {
-    axios.get('/api/v1/repo/' + this.$route.params.id, {
+    axios.get(`/api/v1/repo/${this.$route.params.id}/${this.$route.params.commit}`, {
         headers: {
           'x-access-token': Auth.getUserAccessToken(),
           'Content-Type': 'application/x-www-form-urlencoded'

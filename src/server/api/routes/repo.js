@@ -15,4 +15,8 @@ router
   .delete(user.loginRequired, repo.delete)
   .put(user.loginRequired, repo.update)
 
+router
+  .route('/repo/:id/:commit')
+  .get(user.loginRequired, repo.commit)
+
 module.exports = router

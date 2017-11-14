@@ -36,7 +36,7 @@ exports.add = (req, res, next) => {
 }
 
 /**
- * Find the requested repository by the provided Id in the database and return the log of commits.
+ * Find the requested repository by the provided ID in the database and return the log of commits.
  */
 exports.commits = (req, res, next) => {
   const id = req.params.id
@@ -59,7 +59,46 @@ exports.commits = (req, res, next) => {
 }
 
 /**
- * Find the requested repository by the provided Id in the database and send a new task to the
+ * Find the requested repository by the provided ID in the database and return a requested commit.
+ */
+exports.commit = (req, res, next) => {
+  const id = req.params.id
+  const commitId = req.params.commit
+
+  if (!ObjectID.isValid(id) || !ObjectID.isValid(commitId)) {
+    return next()
+  }
+
+  Repository
+    .findById(id)
+    .populate('commits')
+    .lean()
+    .then((repository) => {
+      if (!repository) {
+        return next()
+      }
+      res.json(repository.commits.filter((commit) => {
+        return commit._id.toString() === commitId
+      }))
+    })
+    .catch(next)
+
+  /*
+  Commit
+    .findById(commit)
+    .lean()
+    .then((commit) => {
+      if (!commit) {
+        return next()
+      }
+      res.json([commit])
+    })
+    .catch(next)
+  */
+}
+
+/**
+ * Find the requested repository by the provided ID in the database and send a new task to the
  * worker queue to perform a pull request on the found repository in a new worker process.
  */
 exports.update = (req, res, next) => {

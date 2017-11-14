@@ -9,6 +9,7 @@ import Authentication from '../components/Authentication'
 import List from '../components/List'
 import Add from '../components/Add'
 import Commits from '../components/Commits'
+import Commit from '../components/Commit'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const router = new VueRouter({
           name: 'Commits',
           path: '/commits/:id',
           component: Commits
+        },
+        {
+          name: 'Commit',
+          path: '/commits/:id/:commit',
+          component: Commit
         }
       ]
     },
