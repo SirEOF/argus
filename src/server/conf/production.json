@@ -1,6 +1,6 @@
 {
   "server": {
-    "port": 80
+    "port": 8080
   },
   "database": {
     "host": "localhost",
@@ -20,11 +20,11 @@
       "path": "/data/repos",
       "depth": 10000,
       "commits": 1000,
-      "buffer": 1024000,
+      "buffer": 2048000,
       "pulling_schedule": 1800
     }
   },
   "logger": {
-    "path": "/var/log/argus.log"
+    "path": "/var/log/argus"
   }
 }
